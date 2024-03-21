@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Mainscreen extends StatefulWidget {
-  Mainscreen({Key? key}) : super(key: key);
+  const Mainscreen({Key? key}) : super(key: key);
 
   @override
   State<Mainscreen> createState() => _MainscreenState();
@@ -22,9 +23,12 @@ class _MainscreenState extends State<Mainscreen> {
               textDirection: TextDirection.ltr,
               style: const TextStyle(
                 fontSize: 20,
-                color: Color.fromARGB(221, 49, 47, 47),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
             ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -36,25 +40,27 @@ class _MainscreenState extends State<Mainscreen> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
+                  count = 0;
+                });
+              },
+              child: const Text("reset"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
                   count--;
                 });
               },
               child: const Text("decrement"),
             ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  count=0;
-                });
-              },
-              child: const Text("reset"),
+              ],
             ),
-            const Text(
+            Text(
               'Hello World',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontSize: 20,
-                color: Color.fromARGB(221, 32, 24, 24),
+                color: Colors.black,
               ),
             ),
           ],
