@@ -54,9 +54,8 @@ class Mainscreenstate extends State<Mainscreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'images/Ambulance.png',
-            ),
+
+            Image.asset('images/Ambulance.png'),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
