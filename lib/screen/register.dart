@@ -1,13 +1,9 @@
-class Register extends StatefulWidget {
-  const Register({super.key});
+import 'package:flutter/material.dart';
+class Registers extends StatelessWidget {
+  const Registers({super.key});
 
-  @override
-  State<Register> createState() => _RegisterState();
-}
-
-class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    return x1;
+    return Text("data") ;
   }
 }
