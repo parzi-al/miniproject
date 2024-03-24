@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_application_1/screen/login.dart';
 
-class  Mainscreen extends StatefulWidget {
+class Mainscreen extends StatefulWidget {
   Mainscreen({Key? key}) : super(key: key);
 
   @override
@@ -10,13 +13,43 @@ class  Mainscreen extends StatefulWidget {
 }
 
 class Mainscreenstate extends State<Mainscreen> {
+  TextStyle buildTextStyle({double fontSize = 30, FontWeight fontWeight = FontWeight.normal,  color = Colors.white}) {
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color,
+      ),
+    );
+  }
+
+  Widget buildButton({required String text, required VoidCallback onPressed, required  color}) {
+    return SizedBox(
+      width: 200,
+      height: 50,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+        ),
+        child: Text(text),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    const String titles = '';
-
     return Scaffold(
       backgroundColor: HexColor('#2B2D42'),
-
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'HOSPIFY',
+            style: buildTextStyle(fontSize: 42.92, fontWeight: FontWeight.w800, color: HexColor('#ED4848')),
+          ),
+        ),
+        backgroundColor: HexColor('#2B2D42'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,51 +60,36 @@ class Mainscreenstate extends State<Mainscreen> {
               padding: const EdgeInsets.all(5.0),
               child: Text(
                 'WELCOME TO',
-                style: GoogleFonts.inter(
-                  textStyle: const TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
+                style: buildTextStyle(),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 'HOSPIFY',
-                style: GoogleFonts.inter(
-                  textStyle: TextStyle(
-                    fontSize: 75,
-                    color: HexColor('#ED4848'),
-                  ),
-                ),
+                style: buildTextStyle(fontSize: 75, fontWeight: FontWeight.w800, color: HexColor('#ED4848')),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 200,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: HexColor('#ED4848'),
-                      ),
-                      child: const Text('Create Account'),
-                    ),
+                  buildButton(
+                    text: 'Login',
+                    
+                    onPressed: () {},
+                    color: HexColor('#ED4848'),
                   ),
-                  SizedBox(
-                    width: 150,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: HexColor('#ED4848'),
-                      ),
-                      child: const Text('login'),
-                    ),
+                  buildButton(
+                    text: 'Create Account',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Login()),
+                      );
+                    },
+                    color: HexColor('#ED4848'),
                   ),
                 ],
               ),
