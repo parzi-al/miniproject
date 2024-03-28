@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_application_1/screen/register.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Createacc extends StatefulWidget {
+  const Createacc({Key? key}) : super(key: key);
 
   @override
   Loginstate createState() => Loginstate();
 }
 
-class Loginstate extends State<Login> {
+class Loginstate extends State<Createacc> {
   final TextStyle textStyle = GoogleFonts.inter(
     textStyle: const TextStyle(
       color: Colors.white,
@@ -50,7 +50,7 @@ class Loginstate extends State<Login> {
               child: Text('Create Account', style: textStyle),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(40.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -78,7 +78,7 @@ Widget buildButton(String text, {bool isNewUser = false}) {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Login()),
+            MaterialPageRoute(builder: (context) => const Createacc()),
           );
           } else {
             Navigator.push(

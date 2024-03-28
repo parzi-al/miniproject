@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:flutter_application_1/screen/login.dart';
+import 'package:flutter_application_1/screen/create.dart';
 
 class Mainscreen extends StatefulWidget {
   Mainscreen({Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class Mainscreenstate extends State<Mainscreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   buildButton(
@@ -86,7 +86,7 @@ class Mainscreenstate extends State<Mainscreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Login()),
+                        MaterialPageRoute(builder: (context) => const Createacc()),
                       );
                     },
                     color: HexColor('#ED4848'),
