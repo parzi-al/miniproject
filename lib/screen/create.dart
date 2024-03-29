@@ -11,15 +11,11 @@ class Createacc extends StatefulWidget {
 }
 
 class Loginstate extends State<Createacc> {
-  final TextStyle textStyle = GoogleFonts.inter(
-    textStyle: const TextStyle(
-      color: Colors.white,
-      fontSize: 30,
-    ),
-  );
+  
 
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
     backgroundColor: HexColor('#ED4848'),
+    foregroundColor: Colors.white,
   );
 
   @override
@@ -47,7 +43,13 @@ class Loginstate extends State<Createacc> {
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Text('Create Account', style: textStyle),
+              child: Text('Create Account', style: GoogleFonts.inter(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize:44,
+                ),
+              ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(40.0),
@@ -70,8 +72,8 @@ Widget buildButton(String text, {bool isNewUser = false}) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: SizedBox(
-      width: 250,
-      height: 50,
+      width: 330,
+      height: 70,
       child: ElevatedButton(
         onPressed: () {
           if (isNewUser){
@@ -88,7 +90,7 @@ Widget buildButton(String text, {bool isNewUser = false}) {
           }
         },
         style: buttonStyle,
-        child: Text(text),
+        child: Text(text,style: TextStyle(fontSize: 23),),
       ),
     ),
   );

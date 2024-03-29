@@ -1,6 +1,7 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screen/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_application_1/screen/create.dart';
@@ -78,7 +79,12 @@ class Mainscreenstate extends State<Mainscreen> {
                   buildButton(
                     text: 'Login',
                     
-                    onPressed: () {},
+                   onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  Login()),
+                      );
+                    },
                     color: HexColor('#ED4848'),
                   ),
                   buildButton(
