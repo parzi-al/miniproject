@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as developer;
+import 'package:flutter_application_1/screen/main_screen.dart';
 
 class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  LoginState createState() => LoginState();
 }
 
-class _LoginState extends State<Login> {
+class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +23,7 @@ class _LoginState extends State<Login> {
             'HOSPIFY',
             style: GoogleFonts.inter(
               textStyle: TextStyle(
-                fontSize: 42.92,
+                fontSize: 43.92,
                 fontWeight: FontWeight.w800,
                 color: HexColor('#ED4848'),
               ),
@@ -29,128 +32,131 @@ class _LoginState extends State<Login> {
         ),
         backgroundColor: HexColor('#2B2D42'),
       ),
-      body: Loginform(),
+      body: const LoginForm(),
     );
   }
 }
 
-class Loginform extends StatefulWidget {
-  Loginform({Key? key}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
-  _loginfromstate createState() => _loginfromstate();
+  LoginFormState createState() => LoginFormState();
 }
 
-class _loginfromstate extends State<Loginform> {
-  final FocusNode _focusNode = FocusNode();
-  bool _hasFocus = false;
-  TextEditingController _user = TextEditingController();
-  TextEditingController _pass = TextEditingController();
+class LoginFormState extends State<LoginForm> {
+  final TextEditingController _user = TextEditingController();
+  final TextEditingController _pass = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _hasFocus = _focusNode.hasFocus;
-      });
-    });
-  }
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Form(
-       key: _formKey,
+      key: _formKey,
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            'Log in',
-            style: GoogleFonts.inter(
-              textStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 44,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Focus(
-            onFocusChange: (hasFocus) {
-              setState(() {
-                _hasFocus = hasFocus;
-              });
-            },
-            child: Container(
-              child: TextFormField(
-                controller: _user,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                  border: InputBorder.none,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+           Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text(
+              'Log in',
+              style: GoogleFonts.inter(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 44,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            controller: _pass,
-            obscureText: true,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Password',
-              labelStyle: TextStyle(
-                color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              controller: _user,
+              decoration: const InputDecoration(
+                labelText: 'Username',
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                border: InputBorder.none,
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: SizedBox(
-            width: 330,
-            height: 70,
-            child: ElevatedButton(
-              onPressed: () {
-                getCredentials();
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              controller: _pass,
+              obscureText: true,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter password';
+                }
+                return null;
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: HexColor('#ED4848'),
-                elevation: 10,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text(
-                'LOG IN',
-                style: TextStyle(fontSize: 23),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Password',
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: SizedBox(
+              width: 330,
+              height: 70,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    try {
+                      UserCredential userCredential =
+                          await AuthService().signInWithFirebase(_user.text, _pass.text);
+                      if (userCredential.user != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Mainscreen()),
+                        );
+                        developer.log('Login successful', name: 'my.app.category');
+                      } else {
+                        developer.log('User is not signed in');
+                      }
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        developer.log('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        developer.log('Wrong password provided for that user.');
+                      }
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: HexColor('#ED4848'),
+                  elevation: 10,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text(
+                  'LOG IN',
+                  style: TextStyle(fontSize: 23),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
+}
 
-  Map<String, String> getCredentials() {
-    Map<String, String> credentials = {
-      'username': _user.text,
-      'password': _pass.text,
-    };
- 
-    return credentials;
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
+class AuthService {
+  Future<UserCredential> signInWithFirebase(String email, String password) async {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential;
   }
 }

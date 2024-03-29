@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screen/login.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,10 +26,11 @@ class Mainscreenstate extends State<Mainscreen> {
     return SizedBox(
       width: 200,
       height: 50,
-      child: OutlinedButton(
+      child: TextButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
+          foregroundColor: Colors.white,
         ),
         child: Text(text),
       ),
@@ -73,19 +72,22 @@ class Mainscreenstate extends State<Mainscreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildButton(
-                    text: 'Login',
-                    
-                   onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Login()),
-                      );
-                    },
-                    color: HexColor('#ED4848'),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: buildButton(
+                      text: 'Login',
+                      
+                     onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  Login()),
+                        );
+                      },
+                      color: HexColor('#ED4848'),
+                    ),
                   ),
                   buildButton(
                     text: 'Create Account',
