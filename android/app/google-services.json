@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432315004437",
+    "project_id": "hospify-f4c44",
+    "storage_bucket": "hospify-f4c44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432315004437:android:5686a68715a3d40d3c801c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDftixylH2oqn4OlLSvadep1-nvKDl8CcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
