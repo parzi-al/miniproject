@@ -32,7 +32,7 @@ class Mainscreenstate extends State<Mainscreen> {
           backgroundColor: color,
           foregroundColor: Colors.white,
         ),
-        child: Text(text),
+      child: Text(text, style: TextStyle(fontSize: 20)),
       ),
     );
   }
@@ -41,15 +41,7 @@ class Mainscreenstate extends State<Mainscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor('#2B2D42'),
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'HOSPIFY',
-            style: buildTextStyle(fontSize: 42.92, fontWeight: FontWeight.w800, color: HexColor('#ED4848')),
-          ),
-        ),
-        backgroundColor: HexColor('#2B2D42'),
-      ),
+    
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
