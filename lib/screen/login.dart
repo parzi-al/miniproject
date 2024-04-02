@@ -58,11 +58,11 @@ class LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
            Padding(
-            padding: EdgeInsets.all(15.0),
+            padding:const EdgeInsets.all(15.0),
             child: Text(
               'Log in',
               style: GoogleFonts.inter(
-                textStyle: TextStyle(
+                textStyle:const TextStyle(
                   color: Colors.white,
                   fontSize: 44,
                   fontWeight: FontWeight.w800,
@@ -79,7 +79,7 @@ class LoginFormState extends State<LoginForm> {
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
-                border: InputBorder.none,
+                border: UnderlineInputBorder(),
               ),
             ),
           ),

@@ -39,6 +39,9 @@ dependencies:
   hexcolor: ^3.0.1
   firebase_core: ^2.27.2
   firebase_auth: ^4.18.0
+  google_sign_in: ^6.2.1
+  cloud_firestore: ^4.15.10
+ 
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +68,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - images/Ambulance.png
+     - images/google.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
