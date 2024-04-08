@@ -3,7 +3,6 @@ import 'package:flutter_application_1/screen/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_application_1/screen/create.dart';
-
 class Mainscreen extends StatefulWidget {
   Mainscreen({Key? key}) : super(key: key);
 

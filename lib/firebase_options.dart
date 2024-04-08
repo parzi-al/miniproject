@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
     storageBucket: 'hospify-f4c44.appspot.com',
+    iosClientId: '432315004437-g16dr436ktm0drk04i86ftbuucvq2fn0.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
     storageBucket: 'hospify-f4c44.appspot.com',
+    iosClientId: '432315004437-u38nkbg4vq743dm4blifq5enfdmgr0p5.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1.RunnerTests',
   );
 }

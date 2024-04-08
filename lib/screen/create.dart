@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:flutter_application_1/screen/register.dart';
-import 'package:flutter_application_1/screen/newuser.dart';
 
 class Createacc extends StatefulWidget {
   const Createacc({Key? key}) : super(key: key);
@@ -77,18 +76,22 @@ Widget buildButton(String text, {bool isNewUser = false}) {
       height: 70,
       child: ElevatedButton(
         onPressed: () {
-          if (isNewUser){
+          // if (isNewUser){
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  Newuser()),
-          );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Registers()),
-            );
-          }
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) =>  Newuser()),
+          // );
+          // } else {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => MyMap()),
+          //   );
+          // }
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => MyMap()),
+          //   );
         },
         style: buttonStyle,
         child: Text(text,style: TextStyle(fontSize: 23),),
