@@ -22,7 +22,7 @@ class _AlertsState extends State<Alerts> {
               'HOSPIFY',
               style: GoogleFonts.inter(
                 textStyle: TextStyle(
-                  fontSize: 43.92,
+                  fontSize: 4.92,
                   fontWeight: FontWeight.w800,
                   color: HexColor('#8D99AE'),
                 ),

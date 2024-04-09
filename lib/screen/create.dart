@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_application_1/ambulance/amb.dart';
+import 'package:flutter_application_1/screen/newuser.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -58,7 +59,7 @@ class Loginstate extends State<Createacc> {
                 children: [
                   
                   buildButton('Register as new user', isNewUser: true),
-                  buildButton('Register as Ambulance Driver'),
+                  buildButton('Register as Ambulance Driver',),
                   buildButton('Register as Alert receiver'),
                 ],
               ),
@@ -76,22 +77,22 @@ Widget buildButton(String text, {bool isNewUser = false}) {
       height: 70,
       child: ElevatedButton(
         onPressed: () {
-          // if (isNewUser){
+          if (isNewUser){
 
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) =>  Newuser()),
-          // );
-          // } else {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => MyMap()),
-          //   );
-          // }
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => MyMap()),
-          //   );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  Newuser()),
+          );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Amb()),
+            );
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Amb()),
+            );
         },
         style: buttonStyle,
         child: Text(text,style: TextStyle(fontSize: 23),),
