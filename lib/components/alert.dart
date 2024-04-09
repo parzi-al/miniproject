@@ -22,7 +22,7 @@ class _AlertsState extends State<Alerts> {
               'HOSPIFY',
               style: GoogleFonts.inter(
                 textStyle: TextStyle(
-                  fontSize: 4.92,
+                  fontSize: 43.92,
                   fontWeight: FontWeight.w800,
                   color: HexColor('#8D99AE'),
                 ),
@@ -34,17 +34,12 @@ class _AlertsState extends State<Alerts> {
         body: Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        AlertScreen(),
-                    transitionDuration: Duration(seconds: 1),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(opacity: animation, child: child);
-                    },
-                  ));
+              
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AlertScreen()),
+                  );
+               
             },
             child: Container(
               width: 313.0, // diameter 50
