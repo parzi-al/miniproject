@@ -14,15 +14,17 @@ class _SevereState extends State<Severe> {
   int currentIndex = 1;
 
   List<Color> colors = const [
-    Color(0xFFBB5C3C),
-    Color(0xFFAA663F),
-    Color(0xFF996F42),
-    Color(0xFF857A45),
-    Color(0xFF738548),
-    Color(0xFF618F4B),
-    Color(0xFF50984E),
     Color(0xFF3DA351),
-  ];
+    Color(0xFF50984E),
+    Color(0xFF618F4B),
+    Color(0xFF738548),
+    Color(0xFF857A45),
+    Color(0xFF996F42),
+    Color(0xFFAA663F),
+    Color(0xFFBB5C3C),
+    Color(0xFFCD5239),
+    Color(0xFFDE4937),
+    ];
 
   @override
   void initState() {
