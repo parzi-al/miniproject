@@ -11,7 +11,7 @@ class Severe extends StatefulWidget {
 
 class _SevereState extends State<Severe> {
   List<int> numbers = List.generate(10, (index) => index + 1);
-  int currentIndex = 1;
+  int currentIndex = 0;
 
   List<Color> colors = const [
     Color(0xFF3DA351),
