@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ambulance/nav.dart';
 
 class Ambsvr extends StatefulWidget {
   const Ambsvr({super.key});
@@ -10,6 +11,6 @@ class Ambsvr extends StatefulWidget {
 class _AmbsvrState extends State<Ambsvr> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Mapping();
   }
 }

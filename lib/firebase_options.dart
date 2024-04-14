@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -73,11 +70,22 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAqwsVadu7CzxIYbhEqyxbJfX9iNo7Aj1w',
-    appId: '1:432315004437:ios:69fee517e05010df3c801c',
+    appId: '1:432315004437:ios:158db3a50f897cbe3c801c',
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
     storageBucket: 'hospify-f4c44.appspot.com',
-    iosClientId: '432315004437-u38nkbg4vq743dm4blifq5enfdmgr0p5.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterApplication1.RunnerTests',
+    iosClientId: '432315004437-g16dr436ktm0drk04i86ftbuucvq2fn0.apps.googleusercontent.com',
+    iosBundleId: 'com.example.flutterApplication1',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBZqS7ezLsh9ykA5ZsTX9wLuoRlXA9Vyo8',
+    appId: '1:432315004437:web:83898cae06ce3c3d3c801c',
+    messagingSenderId: '432315004437',
+    projectId: 'hospify-f4c44',
+    authDomain: 'hospify-f4c44.firebaseapp.com',
+    storageBucket: 'hospify-f4c44.appspot.com',
+    measurementId: 'G-EPKGF5645E',
+  );
+
 }

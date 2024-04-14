@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:flutter_application_1/components/alert.dart';
 import 'package:flutter_application_1/ambulance/ambsvr.dart';
 
 class Amb extends StatefulWidget {
@@ -95,7 +94,7 @@ class _AmbNewState extends State<AmbNew> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Ambsvr()),
+              MaterialPageRoute(builder: (context) =>const Ambsvr()),
             );
           },
           child: Container(
