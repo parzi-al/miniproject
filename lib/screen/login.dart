@@ -108,28 +108,28 @@ class LoginFormState extends State<LoginForm> {
               width: 330,
               height: 70,
               child: ElevatedButton(
-                onPressed: ()  {
-                  // if (_formKey.currentState!.validate()) {
-                  //   try {
-                  //     UserCredential userCredential =
-                  //         await AuthService().signInWithFirebase(_user.text, _pass.text);
-                  //     if (userCredential.user != null) {
+                onPressed: ()  async {
+                  if (_formKey.currentState!.validate()) {
+                    try {
+                      UserCredential userCredential =
+                          await AuthService().signInWithFirebase(_user.text, _pass.text);
+                      if (userCredential.user != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Alerts()),
                         );
-                  //       developer.log('Login successful', name: 'my.app.category');
-                  //     } else {
-                  //       developer.log('User is not signed in');
-                  //     }
-                  //   } on FirebaseAuthException catch (e) {
-                  //     if (e.code == 'user-not-found') {
-                  //       developer.log('No user found for that email.');
-                  //     } else if (e.code == 'wrong-password') {
-                  //       developer.log('Wrong password provided for that user.');
-                  //     }
-                  //   }
-                  // }
+                        print('Login successful' 'my.app.category');
+                      } else {
+                        print('User is not signed in');
+                      }
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for that user.');
+                      }
+                    }
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: HexColor('#ED4848'),
