@@ -23,7 +23,7 @@ class _SevereState extends State<Severe> {
     Color(0xFFAA663F),
     Color(0xFFBB5C3C),
     Color(0xFFCD5239),
-    Color(0xFFDE4937),
+    Color.fromARGB(255, 218, 70, 53),
     ];
 
   @override
