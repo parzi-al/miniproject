@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/components/alert.dart';
 
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -56,12 +57,12 @@ class LoginFormState extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-           Padding(
-            padding:const EdgeInsets.all(15.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
             child: Text(
               'Log in',
               style: GoogleFonts.inter(
-                textStyle:const TextStyle(
+                textStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 44,
                   fontWeight: FontWeight.w800,
@@ -108,16 +109,20 @@ class LoginFormState extends State<LoginForm> {
               width: 330,
               height: 70,
               child: ElevatedButton(
-                onPressed: ()  async {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     try {
-                      UserCredential userCredential =
-                          await AuthService().signInWithFirebase(_user.text, _pass.text);
+                      UserCredential userCredential = await AuthService()
+                          .signInWithFirebase(_user.text, _pass.text);
                       if (userCredential.user != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Alerts()),
                         );
+                      //  Navigator.pushNamed(context, '/alerts',
+                        //    arguments: userCredential.user!.uid);
+                       // print(userCredential.user!.uid);
+                      
                         print('Login successful' 'my.app.category');
                       } else {
                         print('User is not signed in');
@@ -150,7 +155,8 @@ class LoginFormState extends State<LoginForm> {
 }
 
 class AuthService {
-  Future<UserCredential> signInWithFirebase(String email, String password) async {
+  Future<UserCredential> signInWithFirebase(
+      String email, String password) async {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
