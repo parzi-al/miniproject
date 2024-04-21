@@ -46,6 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
     authDomain: 'hospify-f4c44.firebaseapp.com',
+    databaseURL: 'https://hospify-f4c44-default-rtdb.firebaseio.com',
     storageBucket: 'hospify-f4c44.appspot.com',
     measurementId: 'G-9TY023SR84',
   );
@@ -55,6 +56,7 @@ class DefaultFirebaseOptions {
     appId: '1:432315004437:android:5686a68715a3d40d3c801c',
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
+    databaseURL: 'https://hospify-f4c44-default-rtdb.firebaseio.com',
     storageBucket: 'hospify-f4c44.appspot.com',
   );
 
@@ -63,6 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:432315004437:ios:158db3a50f897cbe3c801c',
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
+    databaseURL: 'https://hospify-f4c44-default-rtdb.firebaseio.com',
     storageBucket: 'hospify-f4c44.appspot.com',
     iosClientId: '432315004437-g16dr436ktm0drk04i86ftbuucvq2fn0.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
@@ -73,6 +76,7 @@ class DefaultFirebaseOptions {
     appId: '1:432315004437:ios:158db3a50f897cbe3c801c',
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
+    databaseURL: 'https://hospify-f4c44-default-rtdb.firebaseio.com',
     storageBucket: 'hospify-f4c44.appspot.com',
     iosClientId: '432315004437-g16dr436ktm0drk04i86ftbuucvq2fn0.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
@@ -84,6 +88,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '432315004437',
     projectId: 'hospify-f4c44',
     authDomain: 'hospify-f4c44.firebaseapp.com',
+    databaseURL: 'https://hospify-f4c44-default-rtdb.firebaseio.com',
     storageBucket: 'hospify-f4c44.appspot.com',
     measurementId: 'G-EPKGF5645E',
   );

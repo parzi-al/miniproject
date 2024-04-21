@@ -89,10 +89,7 @@ Widget buildButton(String text, {bool isNewUser = false}) {
               MaterialPageRoute(builder: (context) => Amb()),
             );
           }
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Amb()),
-            );
+          
         },
         style: buttonStyle,
         child: Text(text,style: TextStyle(fontSize: 23),),
