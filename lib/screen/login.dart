@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/components/alert.dart';
 
+
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
@@ -138,6 +139,10 @@ class LoginFormState extends State<LoginForm> {
                           context,
                           MaterialPageRoute(builder: (context) => Alerts()),
                         );
+                      //  Navigator.pushNamed(context, '/alerts',
+                        //    arguments: userCredential.user!.uid);
+                       // print(userCredential.user!.uid);
+                      
                         print('Login successful' 'my.app.category');
                       } else {
                         print('User is not signed in');
