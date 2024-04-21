@@ -6,39 +6,41 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Newuser extends StatefulWidget {
-   Newuser({Key? key}) : super(key: key);
+  Newuser({Key? key}) : super(key: key);
   @override
   State<Newuser> createState() => _NewuserState();
 }
 
 class _NewuserState extends State<Newuser> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<UserCredential?> signUp(String email, String password, String username,
+      String phoneNumber) async {
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-Future<UserCredential?> signUp(String email, String password, String username, String phoneNumber) async {
-  try {
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      // Update user profile
+      await userCredential.user!.updateProfile(displayName: username);
 
-    // Update user profile
-    await userCredential.user!.updateProfile(displayName: username);
+      // Store additional information in Firestore
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'username': username,
+        'phoneNumber': phoneNumber,
+      });
 
-    // Store additional information in Firestore
-    await _firestore.collection('users').doc(userCredential.user!.uid).set({
-      'username': username,
-      'phoneNumber': phoneNumber,
-    });
-
-    return userCredential;
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+      return null;
     }
-    return null;
   }
-}
+
   TextStyle buildTextStyle(
       {double fontSize = 30,
       FontWeight fontWeight = FontWeight.normal,
@@ -153,31 +155,33 @@ Future<UserCredential?> signUp(String email, String password, String username, S
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: ElevatedButton(
-  onPressed: () async {
-    UserCredential? userCredential = await signUp(_email.text, _pass.text, _user.text, _phno.text);
-    if (userCredential == null) {
-      // Handle sign up failure
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Sign up failed. Please try again.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else {
-      // Handle sign up success
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Sign up successful!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Mainscreen()), // Navigate to HomePage after successful sign up
-      );
-    }
-  },
- 
+              onPressed: () async {
+                UserCredential? userCredential = await signUp(
+                    _email.text, _pass.text, _user.text, _phno.text);
+                if (userCredential == null) {
+                  // Handle sign up failure
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sign up failed. Please try again.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                } else {
+                  // Handle sign up success
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sign up successful!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Mainscreen()), // Navigate to HomePage after successful sign up
+                  );
+                }
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(HexColor('#EF233C')),
               ),
@@ -225,10 +229,6 @@ Future<UserCredential?> signUp(String email, String password, String username, S
 class NextBody extends StatelessWidget {
   NextBody({Key? key}) : super(key: key);
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -256,7 +256,7 @@ class NextBody extends StatelessWidget {
               backgroundColor: HexColor('#8D99AE'),
               foregroundColor: Colors.white,
               elevation: 10,
-              minimumSize: Size( 358, 73),
+              minimumSize: Size(358, 73),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min, // Set this

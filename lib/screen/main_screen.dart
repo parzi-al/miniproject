@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ambulance/amb.dart';
 import 'package:flutter_application_1/screen/login.dart';
+import 'package:flutter_application_1/screen/newuser.dart';
+import 'package:flutter_application_1/screen/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_application_1/screen/create.dart';
+
 class Mainscreen extends StatefulWidget {
   Mainscreen({Key? key}) : super(key: key);
 
@@ -11,7 +15,10 @@ class Mainscreen extends StatefulWidget {
 }
 
 class Mainscreenstate extends State<Mainscreen> {
-  TextStyle buildTextStyle({double fontSize = 30, FontWeight fontWeight = FontWeight.normal,  color = Colors.white}) {
+  TextStyle buildTextStyle(
+      {double fontSize = 30,
+      FontWeight fontWeight = FontWeight.normal,
+      color = Colors.white}) {
     return GoogleFonts.inter(
       textStyle: TextStyle(
         fontSize: fontSize,
@@ -21,7 +28,8 @@ class Mainscreenstate extends State<Mainscreen> {
     );
   }
 
-  Widget buildButton({required String text, required VoidCallback onPressed, required  color}) {
+  Widget buildButton(
+      {required String text, required VoidCallback onPressed, required color}) {
     return SizedBox(
       width: 200,
       height: 50,
@@ -31,7 +39,7 @@ class Mainscreenstate extends State<Mainscreen> {
           backgroundColor: color,
           foregroundColor: Colors.white,
         ),
-      child: Text(text, style: TextStyle(fontSize: 20)),
+        child: Text(text, style: TextStyle(fontSize: 20)),
       ),
     );
   }
@@ -40,12 +48,10 @@ class Mainscreenstate extends State<Mainscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor('#2B2D42'),
-    
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Image.asset('images/Ambulance.png'),
             Padding(
               padding: const EdgeInsets.all(5.0),
@@ -58,7 +64,10 @@ class Mainscreenstate extends State<Mainscreen> {
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 'HOSPIFY',
-                style: buildTextStyle(fontSize: 75, fontWeight: FontWeight.w800, color: HexColor('#ED4848')),
+                style: buildTextStyle(
+                    fontSize: 75,
+                    fontWeight: FontWeight.w800,
+                    color: HexColor('#ED4848')),
               ),
             ),
             Padding(
@@ -70,25 +79,45 @@ class Mainscreenstate extends State<Mainscreen> {
                     padding: const EdgeInsets.all(18.0),
                     child: buildButton(
                       text: 'Login',
-                      
-                     onPressed: () {
+                      onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  Login()),
+                          MaterialPageRoute(builder: (context) => Login()),
                         );
                       },
                       color: HexColor('#ED4848'),
                     ),
                   ),
-                  buildButton(
-                    text: 'Create Account',
+                  
+                  ElevatedButton(
+                    child: Text('        Login as \nAmbulance Driver'),
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Createacc()),
+                        MaterialPageRoute(builder: (context) => Amb()),
                       );
                     },
-                    color: HexColor('#ED4848'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      backgroundColor: HexColor('#ED4848'),
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(200, 50),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: buildButton(
+                      text: 'Create Account',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Newuser()),
+                        );
+                      },
+                      color: HexColor('#ED4848'),
+                    ),
                   ),
                 ],
               ),
