@@ -3,6 +3,8 @@ import 'package:flutter_application_1/ambulance/ambsvr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_application_1/ambulance/ambsvr.dart';
+import 'package:hexcolor/hexcolor.dart';
+  import 'package:google_fonts/google_fonts.dart';
 
 class LocationPage extends StatefulWidget {
   LocationPage({Key? key}) : super(key: key);
@@ -82,7 +84,23 @@ class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Location Page")),
+      
+      backgroundColor: HexColor('#2B2D42'),
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'HOSPIFY',
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                fontSize: 43.92,
+                fontWeight: FontWeight.w800,
+                color: HexColor("#EF233C"),
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: HexColor('#2B2D42'),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -94,7 +112,7 @@ class _LocationPageState extends State<LocationPage> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _getCurrentPosition,
-                child: const Text("Get Current Location"),
+                child: const Text("Get Latitude and Longitude"),
               ),
               const SizedBox(height: 32),
               ElevatedButton(
@@ -104,7 +122,7 @@ class _LocationPageState extends State<LocationPage> {
                     MaterialPageRoute(builder: (context) => Ambsvr()),
                   );
                 },
-                child: const Text("Get Current Location"),
+                child: const Text("Go to map"),
               )
             ],
           ),
