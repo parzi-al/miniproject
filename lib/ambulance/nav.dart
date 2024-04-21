@@ -1,43 +1,115 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_application_1/ambulance/ambsvr.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_application_1/ambulance/ambsvr.dart';
 
-class Mapping extends StatefulWidget {
-  const Mapping({super.key});
+class LocationPage extends StatefulWidget {
+  LocationPage({Key? key}) : super(key: key);
 
   @override
-  State<Mapping> createState() => _MappingState();
+  State<LocationPage> createState() => _LocationPageState();
+  static String? get currentAddress => _LocationPageState.currentAddress;
+  static Position? get currentPosition => _LocationPageState.currentPosition;
 }
 
-class _MappingState extends State<Mapping> {
-  final Completer<GoogleMapController> _controller = Completer();
-  static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng Destination = LatLng(37.33429383, -122.06600055);
+class _LocationPageState extends State<LocationPage> {
+  static String? currentAddress;
+  static Position? currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Location services are disabled. Please enable the services')));
+      }
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Location permissions are denied')));
+        }
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Location permissions are permanently denied, we cannot request permissions.')));
+      }
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => currentPosition = position);
+      _getAddressFromLatLng(currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            currentPosition!.latitude, currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-            backgroundColor: HexColor('#2B2D42'),
-            appBar: AppBar(
-              title: Center(
-                child: Text(
-                  'HOSPIFY',
-                  style: GoogleFonts.inter(
-                    textStyle: TextStyle(
-                      fontSize: 43.92,
-                      fontWeight: FontWeight.w800,
-                      color: HexColor('#8D99AE'),
-                    ),
-                  ),
-                ),
+    return Scaffold(
+      appBar: AppBar(title: const Text("Location Page")),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               Text('LAT: ${currentPosition?.latitude ?? ""}'),
+              Text('LNG: ${currentPosition?.longitude ?? ""}'),
+              Text('ADDRESS: ${currentAddress ?? ""}'),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _getCurrentPosition,
+                child: const Text("Get Current Location"),
               ),
-              backgroundColor: HexColor('#2B2D42'),
-            ),
-            body: const Center(
-              child: GoogleMap(initialCameraPosition: CameraPosition(target: sourceLocation, zoom: 14.4746,))
-            ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Ambsvr()),
+                  );
+                },
+                child: const Text("Get Current Location"),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

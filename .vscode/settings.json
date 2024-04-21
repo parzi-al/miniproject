@@ -1,3 +1,14 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "workbench.commandPalette.experimental.suggestCommands": true,
+    "debug.openExplorerOnEnd": true,
+    "debug.showSubSessionsInToolBar": true,
+    "debug.terminal.clearBeforeReusing": true,
+    "testing.automaticallyOpenPeekViewDuringAutoRun": false,
+    "testing.defaultGutterClickAction": "run",
+    "scm.alwaysShowActions": true,
+    "scm.alwaysShowRepositories": true,
+    "editor.minimap.autohide": false,
+    "workbench.activityBar.location": "default",
+    "files.autoSave": "afterDelay"
 }
