@@ -1,25 +1,97 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/components/ambsvr.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Severe extends StatefulWidget {
   Severe({Key? key}) : super(key: key);
 
   @override
   State<Severe> createState() => _SevereState();
+  static String? get currentAddress => _SevereState.currentAddress;
+  static Position? get currentPosition => _SevereState.currentPosition;
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-}
-
+@override
 class _SevereState extends State<Severe> {
+  static String? currentAddress;
+  static Position? currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Location services are disabled. Please enable the services')));
+      }
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Location permissions are denied')));
+        }
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Location permissions are permanently denied, we cannot request permissions.')));
+      }
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => currentPosition = position);
+      _getAddressFromLatLng(currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            currentPosition!.latitude, currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+
   List<int> svr = List.generate(10, (index) => index + 1);
   int currentIndex = 0;
   final User? user = FirebaseAuth.instance.currentUser;
@@ -38,18 +110,12 @@ class _SevereState extends State<Severe> {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final TextEditingController _controller = TextEditingController();
 
-  void _addToFirestore() async {
-    String data = _controller.text;
-    await _db.collection('callforhelp').add({
-      'message': svr[currentIndex],
-      'uid': user?.uid,
-    });
-    _controller.clear();
-  }
+
 
   @override
   void initState() {
     super.initState();
+    _getCurrentPosition();
   }
 
   void _storeData() {
@@ -149,9 +215,47 @@ class _SevereState extends State<Severe> {
             ),
             ElevatedButton(
                 onPressed: () {
+                  print('LAT: ${currentPosition?.latitude ?? ""}');
+                  print('LNG: ${currentPosition?.longitude ?? ""}');
+                  print('ADDRESS: ${currentAddress ?? ""}');
                   print(svr[currentIndex]);
                   print(user?.uid);
-                  //
+                  CollectionReference collref =
+                      FirebaseFirestore.instance.collection('callforhelp');
+                  collref.add({
+                    'severity': svr[currentIndex],
+                    'uid': user?.uid,
+                    'Latitude': currentPosition?.latitude,
+                    'Longitude': currentPosition?.longitude,
+                  });
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Confirmation'),
+                        content:
+                            const Text('Are you sure you want to continue?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                              child: const Text('Continue'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Ambsvr()),
+                                );
+                              }),
+                        ],
+                      );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

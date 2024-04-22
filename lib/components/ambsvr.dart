@@ -1,52 +1,59 @@
 import 'dart:async';
-import 'package:flutter_application_1/ambulance/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/components/severe.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ambsvr extends StatefulWidget {
-  const Ambsvr({Key? key}) : super(key: key);
+  Ambsvr({Key? key}) : super(key: key);
   @override
   State<Ambsvr> createState() => _AmbsvrState();
 }
 
 class _AmbsvrState extends State<Ambsvr> {
+  LatLng? destination1;
+
+  Future<void> getLatLng() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('callforhelp')
+        .doc('qkAvPecfZaR1ASGWJztI')
+        .get();
+    final latitude = snapshot.get('Latitude');
+    final longitude = snapshot.get('Longitude');
+    setState(() {
+      destination1 = LatLng(latitude, longitude);
+    });
+  }
+
   final Completer<GoogleMapController> _controller = Completer();
   static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
   static const LatLng destination = LatLng(9.9902, 76.92358);
-  static const LatLng destination1 = LatLng(9.9902, 76.3648);
-
-  List<LatLng> destinations = [
-    LatLng(9.9902, 76.3158),
-    LatLng(9.9902, 76.3898),
-  ];
 
   List<LatLng> polylineCoordinates = [];
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       api, // Your Google Map Key
-      PointLatLng(LocationPage.currentPosition!.latitude,
-          LocationPage.currentPosition!.longitude),
+      PointLatLng(
+          Severe.currentPosition!.latitude, Severe.currentPosition!.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
-          LatLng(point.latitude, point.longitude),
-        ),
-      );
+      polylineCoordinates = result.points
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList();
       setState(() {});
     }
   }
 
   @override
   void initState() {
-    // getPolyPoints();
     super.initState();
+    getLatLng();
   }
 
   @override
@@ -69,30 +76,26 @@ class _AmbsvrState extends State<Ambsvr> {
         backgroundColor: HexColor('#2B2D42'),
       ),
       body: GoogleMap(
-        // initialCameraPosition: CameraPosition(
-        //   target: LatLng(
-        //    sourceLocation.latitude , sourceLocation.longitude),
-        //   zoom: 13.5,
-        // ),
         initialCameraPosition: CameraPosition(
-          target: LatLng(LocationPage.currentPosition!.latitude,
-              LocationPage.currentPosition!.longitude),
+          target: LatLng(Severe.currentPosition!.latitude,
+              Severe.currentPosition!.longitude),
           zoom: 13.5,
         ),
         markers: {
           Marker(
             markerId: const MarkerId("currentLocation"),
-            position: LatLng(LocationPage.currentPosition!.latitude,
-                LocationPage.currentPosition!.longitude),
+            position: LatLng(Severe.currentPosition!.latitude,
+                Severe.currentPosition!.longitude),
           ),
           const Marker(
             markerId: MarkerId("source"),
             position: sourceLocation,
           ),
-          const Marker(
-            markerId: MarkerId("destination"),
-            position: destination,
-          ),
+          if (destination1 != null)
+            Marker(
+              markerId: const MarkerId("destination1"),
+              position: destination1!,
+            ),
         },
         onMapCreated: (mapController) {
           _controller.complete(mapController);

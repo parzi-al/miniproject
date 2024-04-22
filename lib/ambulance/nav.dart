@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/ambulance/ambsvr.dart';
+import 'package:flutter_application_1/components/ambsvr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_application_1/ambulance/ambsvr.dart';
 import 'package:hexcolor/hexcolor.dart';
-  import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LocationPage extends StatefulWidget {
   LocationPage({Key? key}) : super(key: key);
@@ -84,7 +84,6 @@ class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: HexColor('#2B2D42'),
       appBar: AppBar(
         title: Center(
@@ -106,9 +105,7 @@ class _LocationPageState extends State<LocationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Text('LAT: ${currentPosition?.latitude ?? ""}'),
-              Text('LNG: ${currentPosition?.longitude ?? ""}'),
-              Text('ADDRESS: ${currentAddress ?? ""}'),
+
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _getCurrentPosition,
@@ -116,11 +113,12 @@ class _LocationPageState extends State<LocationPage> {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Ambsvr()),
-                  );
+                onPressed: () async {
+                  print('LAT: ${currentPosition?.latitude ?? ""}');
+                  print('LNG: ${currentPosition?.longitude ?? ""}');
+                  print('ADDRESS: ${currentAddress ?? ""}');
+                  await launchUrl(Uri.parse(
+                      "geo:currentPosition?.latitude,currentPosition?.longitude"));
                 },
                 child: const Text("Go to map"),
               )

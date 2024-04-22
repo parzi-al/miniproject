@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,18 +15,28 @@ class Amb extends StatefulWidget {
 String inFo = "No new Alerts";
 
 class _AmbState extends State<Amb> {
-  bool condition = true;
+    final Stream<QuerySnapshot> _ambStream = FirebaseFirestore.instance.collection('callforhelp').snapshots();
+
+  bool condition = false;
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        condition = true;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+     return StreamBuilder<QuerySnapshot>(
+      stream: _ambStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        bool condition = snapshot.data!.docs.isNotEmpty; // Change this line to fit your condition
+
     return condition
         ? const AmbNew()
         : Scaffold(
@@ -108,6 +119,8 @@ class _AmbState extends State<Amb> {
               ),
             ),
           );
+      },
+     );
   }
 }
 
