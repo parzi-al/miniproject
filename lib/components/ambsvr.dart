@@ -33,8 +33,8 @@ class _AmbsvrState extends State<Ambsvr> {
     // Add the marker for the current location
     Marker currentLocationMarker = Marker(
       markerId: const MarkerId("currentLocation"),
-      position: LatLng(Severe.currentPosition!.latitude,
-          Severe.currentPosition!.longitude),
+      position: LatLng(
+          Severe.currentPosition!.latitude, Severe.currentPosition!.longitude),
     );
     markers.add(currentLocationMarker);
     setState(() {});
@@ -44,7 +44,7 @@ class _AmbsvrState extends State<Ambsvr> {
 
   final Completer<GoogleMapController> _controller = Completer();
   static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng destination = LatLng(9.9902, 76.92358);
+  static const LatLng destination = LatLng(9.9638143, 76.4096575);
 
   List<LatLng> polylineCoordinates = [];
   void getPolyPoints() async {
@@ -109,12 +109,12 @@ class _AmbsvrState extends State<Ambsvr> {
       ),
       floatingActionButton: ElevatedButton(
           onPressed: () async {
-              final url = 'https://www.google.com/maps/dir/?api=1&destination=$destination&travelmode=driving ';
-              if (await canLaunchUrlString(url)) {
-                await launchUrlString(url);
-              } else {
-                throw 'Could not launch $url';
-              }
+            final url = 'https://maps.google.com/?q={}=$destination';
+            if (await canLaunchUrlString(url)) {
+              await launchUrlString(url);
+            } else {
+              throw 'Could not launch $url';
+            }
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

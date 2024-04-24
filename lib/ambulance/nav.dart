@@ -164,14 +164,15 @@ class _LocationPageState extends State<LocationPage> {
                       print('LAT: ${currentPosition?.latitude ?? ""}');
                       print('LNG: ${currentPosition?.longitude ?? ""}');
                       print('ADDRESS: ${currentAddress ?? ""}');
-                    
-              final url = 'https://www.google.com/maps/dir/?api=1&destination=$currentAddress';
-              if (await canLaunchUrlString(url)) {
-                await launchUrlString(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            
+
+                      final url =
+                          'https://maps.google.com/?q={}=$currentAddress';
+                      // final url = 'https://www.google.com/maps/dir/?api=1&destination=$currentAddress';
+                      if (await canLaunchUrlString(url)) {
+                        await launchUrlString(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
                     },
                     child: const Text("View Location on Map"),
                   )
